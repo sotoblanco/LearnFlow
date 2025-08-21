@@ -1,11 +1,9 @@
 import sqlite3
 import json
-
-import sqlite3
-import json
+import os
 
 def setup_database():
-    conn = sqlite3.connect('learning_paths.db')
+    conn = sqlite3.connect(os.getenv('DB_PATH', 'learning_paths.db'))
     cursor = conn.cursor()
     
     # Table for learning paths
@@ -41,7 +39,7 @@ def setup_database():
     conn.close()
 
 def check_existing_repository(github_url):
-    conn = sqlite3.connect('learning_paths.db')
+    conn = sqlite3.connect(os.getenv('DB_PATH', 'learning_paths.db'))
     cursor = conn.cursor()
     
     cursor.execute('''
@@ -54,7 +52,7 @@ def check_existing_repository(github_url):
     return result[0] if result else None
 
 def save_learning_path(result, enhanced_path, github_url):
-    conn = sqlite3.connect('learning_paths.db')
+    conn = sqlite3.connect(os.getenv('DB_PATH', 'learning_paths.db'))
     cursor = conn.cursor()
     
     # Save main learning path
@@ -85,7 +83,7 @@ def save_learning_path(result, enhanced_path, github_url):
     return path_id, step_ids
 
 def get_learning_step(step_id):
-    conn = sqlite3.connect('learning_paths.db')
+    conn = sqlite3.connect(os.getenv('DB_PATH', 'learning_paths.db'))
     cursor = conn.cursor()
     
     cursor.execute('''
