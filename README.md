@@ -1,3 +1,5 @@
+Github URL: https://github.com/sotoblanco/LearnFlow
+
 # Project Spec
 
 ## System Overview
@@ -77,8 +79,14 @@ The project is built with the following technologies:
 
 The ``neo4j_data.py`` file is the main file that is used to store the data in the graph database. We create semantic relaitonship based on content and the code from the repository to match the learning path and the learning steps.
 
+# Guardrails
 
-Test live in:
+- The process of the github repository get the relevant files from the repository. 
+-We limit the number of files to process to avoid abuse of the system.
+- Token generation for the learning path is limited to 1000 tokens.
+- We control the input and generation of the learning path, user only decide the repository and the number of files to process.
+
+## Test live in:
 
 https://sotoblanco263542--codelap-edu-web-app.modal.run/
 
