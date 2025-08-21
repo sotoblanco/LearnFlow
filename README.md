@@ -76,3 +76,21 @@ The project is built with the following technologies:
 # RAG Code:
 
 The ``neo4j_data.py`` file is the main file that is used to store the data in the graph database. We create semantic relaitonship based on content and the code from the repository to match the learning path and the learning steps.
+
+
+Test live in:
+
+https://sotoblanco263542--codelap-edu-web-app.modal.run/
+
+The code was deployed using Modal, a platform that allows to deploy python code as a web application.
+
+
+### How to use the app:
+
+1. Go to the app: https://sotoblanco263542--codelap-edu-web-app.modal.run/
+2. Input the GitHub URL of the repository you want to learn
+3. Input the number of files you want to process
+4. Click on "Generate Learning Path"
+5. If we already have a learning path for this repository, we can choose to use the existing learning path or regenerate it.
+6. Wait for the learning path to be created
+7. Click on the learning path to see the learning steps
