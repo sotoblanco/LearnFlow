@@ -52,16 +52,9 @@ def web_app():
     
     # Import and run your existing app
     #try:
-    from frontend.app import serve
-    return serve()
-    # except ImportError as e:
-    #     print(f"Import error: {e}")
-    #     print(f"Python path: {sys.path}")
-    #     import os
-    #     print("Files in /root:", os.listdir("/root"))
-        # Fallback: create a simple error page
-        #from fasthtml.common import *
-        #return Div(f"Error loading app: {str(e)}", style="color: red")
+    from frontend.app import serve_app
+    return serve_app()
+
 
 if __name__ == "__main__":
     app.run(web_app)
