@@ -52,8 +52,8 @@ def web_app():
     
     # Import and run your existing app
     #try:
-    from frontend.app import serve_app
-    return serve_app()
+    from frontend.app_fh import app
+    return app
 
 
 if __name__ == "__main__":

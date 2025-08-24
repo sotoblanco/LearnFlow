@@ -35,7 +35,7 @@ async def create_learning_path_from_github(github_url, file_count=100):
     learning_path = await generate_learning_path(learning_data)
     
     return {
-        "repository": repo_name,
+        "repository": github_url,
         "total_files": len(content_files),
         "learning_path": learning_path
     }
@@ -46,7 +46,11 @@ async def main(github_url, file_count):
     enhanced_learning_path_solutions = generate_exercise_solutions(enhanced_learning_path)
     print(enhanced_learning_path_solutions)
     path_id, step_ids = save_learning_path(learning_path, enhanced_learning_path_solutions, github_url)
-    return enhanced_learning_path_solutions
+    return {
+        "repository": github_url,
+        "total_files": file_count,
+        "learning_path": enhanced_learning_path_solutions
+    }
 
 
 if __name__ == "__main__":
