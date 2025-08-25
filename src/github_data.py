@@ -2,6 +2,18 @@ import os
 from github import Github
 import requests
 
+def get_quick_repo_info(github_url):
+    repo_name = github_url.replace("https://github.com/", "")
+    g = Github(os.getenv('GITHUB_PAT'))
+    repo = g.get_repo(repo_name)
+    
+    return {
+        "name": repo.full_name,
+        "description": repo.description or "No description available",
+        "stars": repo.stargazers_count,
+        "language": repo.language,
+        "topics": repo.get_topics()
+    }
 
 def get_target_files_with_content(repo, path="", target_extensions=['.md', '.ipynb', '.py'], include_content=True):
     content = repo.get_contents(path)

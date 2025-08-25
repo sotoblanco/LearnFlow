@@ -1,6 +1,7 @@
 from neo4j import GraphDatabase
-from src.llm_query import analyze_file_content
+from src.llm_query import analyze_file_content_async
 import os
+import asyncio  
 
 # Get Neo4j credentials from environment variables
 uri = os.getenv('NEO4J_URI', "neo4j+s://cb1b78cd.databases.neo4j.io")
@@ -66,6 +67,34 @@ def add_files_to_graph_with_content(files_data, repo_name, batch_size=10):
             count += 1
         
         print(f"Added {count} files with content to the graph")
+
+async def process_all_files_async():
+    with driver.session() as session:
+        result = session.run("MATCH (f:File) RETURN f.name, f.content, f.type")
+        files = [record for record in result]
+        
+    tasks = []
+    for file_record in files:
+        file_name = file_record['f.name']
+        file_content = file_record['f.content']
+        file_type = file_record['f.type']
+        
+        print(f"Creating task for {file_name}...")
+        task = analyze_file_content_async(file_content, file_type, file_name)
+        tasks.append(task)
+    
+    print("Processing all files concurrently...")
+    results = await asyncio.gather(*tasks)
+    
+    # Now process the results and add to graph
+    for i, topics in enumerate(results):
+        file_name = files[i]['f.name']
+        print(f"Adding topics for {file_name}...")
+        
+        add_topics_to_graph(topics)
+        connect_file_to_topics(file_name, topics)
+    
+    print("All files processed!")
 
 def process_all_files():
     with driver.session() as session:
