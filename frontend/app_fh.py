@@ -195,13 +195,265 @@ def render_processing_page(repo_info, file_count, github_url):
                 .processing { text-align: center; margin: 30px 0; }
                 .progress { margin: 20px 0; }
                 .hidden { display: none; }
-                .step { border: 1px solid #ddd; margin: 20px 0; padding: 20px; border-radius: 8px; }
-                .step-header { background: #f5f5f5; padding: 10px; margin: -20px -20px 15px -20px; }
-                .exercise { background: #f8f9fa; padding: 15px; margin: 10px 0; border-left: 4px solid #007bff; }
-                pre { background: #f4f4f4; padding: 10px; overflow-x: auto; }
+                .step { border: 1px solid #ddd; margin: 20px 0; border-radius: 8px; overflow: hidden; }
+                .step-header { 
+                    background: #f5f5f5; 
+                    padding: 15px 20px; 
+                    cursor: pointer; 
+                    user-select: none;
+                    transition: background-color 0.2s ease;
+                    border-bottom: 1px solid #ddd;
+                }
+                .step-header:hover { 
+                    background: #e9ecef; 
+                }
+                .step-header h2 { 
+                    margin: 0; 
+                    display: flex; 
+                    justify-content: space-between; 
+                    align-items: center; 
+                }
+                .step-toggle { 
+                    font-size: 1.2em; 
+                    transition: transform 0.2s ease; 
+                }
+                .step-toggle.expanded { 
+                    transform: rotate(90deg); 
+                }
+                .step-content { 
+                    padding: 20px; 
+                    display: none; 
+                }
+                .step-content.expanded { 
+                    display: block; 
+                }
+                
+                /* Enhanced Exercise Styling */
+                .exercise { 
+                    background: #1e1e1e; 
+                    border: 1px solid #333; 
+                    border-radius: 8px; 
+                    margin: 15px 0; 
+                    overflow: hidden;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                .exercise-header {
+                    background: #2d2d2d;
+                    padding: 10px 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #333;
+                    cursor: pointer;
+                    user-select: none;
+                }
+                .exercise-header:hover {
+                    background: #3d3d3d;
+                }
+                .exercise-title {
+                    color: #fff;
+                    font-weight: bold;
+                    font-size: 14px;
+                    margin: 0;
+                }
+                .exercise-controls {
+                    display: flex;
+                    gap: 10px;
+                }
+                .exercise-btn {
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: background 0.2s;
+                }
+                .exercise-btn:hover {
+                    background: #0056b3;
+                }
+                .copy-btn {
+                    background: #28a745;
+                }
+                .copy-btn:hover {
+                    background: #1e7e34;
+                }
+                .copy-btn.copied {
+                    background: #17a2b8;
+                }
+                .exercise-content {
+                    display: none;
+                    padding: 0;
+                }
+                .exercise-content.expanded {
+                    display: block;
+                }
+                .exercise-section {
+                    padding: 15px;
+                    border-bottom: 1px solid #333;
+                }
+                .exercise-code {
+                    margin: 0 !important;
+                    border-radius: 4px !important;
+                    background: #1e1e1e !important;
+                    color: #f8f8f2;
+                    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    padding: 15px !important;
+                    overflow-x: auto;
+                    white-space: pre;
+                }
+                
+                /* Solution Styling */
+                .solution-container {
+                    background: #2d4a22;
+                    margin: 0;
+                    border-top: 1px solid #4a7c59;
+                }
+                .solution-header {
+                    background: #3d5a32;
+                    padding: 10px 15px;
+                    cursor: pointer;
+                    user-select: none;
+                    border-bottom: 1px solid #4a7c59;
+                }
+                .solution-header:hover {
+                    background: #4d6a42;
+                }
+                .solution-title {
+                    margin: 0;
+                    color: #90ee90;
+                    font-size: 14px;
+                    font-weight: bold;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .solution-controls {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                }
+                .solution-btn {
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: background 0.2s;
+                }
+                .solution-btn:hover {
+                    background: #1e7e34;
+                }
+                .solution-toggle {
+                    background: #17a2b8;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+                .solution-toggle:hover {
+                    background: #138496;
+                }
+                .solution-content {
+                    display: none;
+                    padding: 15px;
+                    background: #1a3d1a;
+                }
+                .solution-content.expanded {
+                    display: block;
+                }
+                .solution-code {
+                    margin: 0 !important;
+                    border-radius: 4px !important;
+                    background: #0d2818 !important;
+                    color: #90ee90;
+                    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    padding: 15px !important;
+                    overflow-x: auto;
+                    white-space: pre;
+                    border: 1px solid #4a7c59;
+                }
+                
+                .progress-bar { width: 100%; height: 20px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
+                .progress-fill { height: 100%; background: #007bff; transition: width 0.3s ease; }
+                .step-number { 
+                    background: #007bff; 
+                    color: white; 
+                    border-radius: 50%; 
+                    width: 30px; 
+                    height: 30px; 
+                    display: inline-flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    margin-right: 10px; 
+                    font-weight: bold; 
+                }
+                .learning-path-header {
+                    text-align: center;
+                    margin: 30px 0;
+                    padding: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    border-radius: 10px;
+                }
+                .expand-all-btn {
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin: 10px 5px;
+                    font-size: 14px;
+                }
+                .expand-all-btn:hover {
+                    background: #218838;
+                }
+                .collapse-all-btn {
+                    background: #6c757d;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin: 10px 5px;
+                    font-size: 14px;
+                }
+                .collapse-all-btn:hover {
+                    background: #5a6268;
+                }
+                
+                /* Toast notification for copy feedback */
+                .toast {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    z-index: 1000;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                }
+                .toast.show {
+                    opacity: 1;
+                }
             """)
         ),
         Body(
+            # Toast notification element
+            Div(id="toast", cls="toast"),
+            
             H1("🎓 Learning Path Generator"),
             Div(
                 H2(f"📚 {repo_info['name']}"),
@@ -214,7 +466,10 @@ def render_processing_page(repo_info, file_count, github_url):
             Div(
                 H3("🔄 Processing Learning Path...", id="status-title"),
                 P(f"Analyzing {file_count} files to create your personalized learning path", id="status-message"),
-                Div(id="progress-bar"),
+                Div(
+                    Div(id="progress-fill", cls="progress-fill", style="width: 0%"),
+                    cls="progress-bar"
+                ),
                 Div(id="learning-path-container", cls="hidden"),
                 cls="processing"
             ),
@@ -329,6 +584,10 @@ def render_processing_page_polling(repo_info, file_count, task_id):
     return Html(
         Head(
             Title(f"Processing {repo_info['name']}"),
+            # Add Prism.js for syntax highlighting
+            Link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"),
+            Script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"),
+            Script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"),
             Style("""
                 body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
                 .repo-header { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
@@ -369,8 +628,162 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                 .step-content.expanded { 
                     display: block; 
                 }
-                .exercise { background: #f8f9fa; padding: 15px; margin: 10px 0; border-left: 4px solid #007bff; }
-                pre { background: #f4f4f4; padding: 10px; overflow-x: auto; border-radius: 4px; }
+                
+                /* Enhanced Exercise Styling */
+                .exercise { 
+                    background: #1e1e1e; 
+                    border: 1px solid #333; 
+                    border-radius: 8px; 
+                    margin: 15px 0; 
+                    overflow: hidden;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                .exercise-header {
+                    background: #2d2d2d;
+                    padding: 10px 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #333;
+                    cursor: pointer;
+                    user-select: none;
+                }
+                .exercise-header:hover {
+                    background: #3d3d3d;
+                }
+                .exercise-title {
+                    color: #fff;
+                    font-weight: bold;
+                    font-size: 14px;
+                    margin: 0;
+                }
+                .exercise-controls {
+                    display: flex;
+                    gap: 10px;
+                }
+                .exercise-btn {
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: background 0.2s;
+                }
+                .exercise-btn:hover {
+                    background: #0056b3;
+                }
+                .copy-btn {
+                    background: #28a745;
+                }
+                .copy-btn:hover {
+                    background: #1e7e34;
+                }
+                .copy-btn.copied {
+                    background: #17a2b8;
+                }
+                .exercise-content {
+                    display: none;
+                    padding: 0;
+                }
+                .exercise-content.expanded {
+                    display: block;
+                }
+                .exercise-section {
+                    padding: 15px;
+                    border-bottom: 1px solid #333;
+                }
+                .exercise-code {
+                    margin: 0 !important;
+                    border-radius: 4px !important;
+                    background: #1e1e1e !important;
+                    color: #f8f8f2;
+                    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    padding: 15px !important;
+                    overflow-x: auto;
+                    white-space: pre;
+                }
+                
+                /* Solution Styling */
+                .solution-container {
+                    background: #2d4a22;
+                    margin: 0;
+                    border-top: 1px solid #4a7c59;
+                }
+                .solution-header {
+                    background: #3d5a32;
+                    padding: 10px 15px;
+                    cursor: pointer;
+                    user-select: none;
+                    border-bottom: 1px solid #4a7c59;
+                }
+                .solution-header:hover {
+                    background: #4d6a42;
+                }
+                .solution-title {
+                    margin: 0;
+                    color: #90ee90;
+                    font-size: 14px;
+                    font-weight: bold;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .solution-controls {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                }
+                .solution-btn {
+                    background: #28a745;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 12px;
+                    transition: background 0.2s;
+                }
+                .solution-btn:hover {
+                    background: #1e7e34;
+                }
+                .solution-toggle {
+                    background: #17a2b8;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                }
+                .solution-toggle:hover {
+                    background: #138496;
+                }
+                .solution-content {
+                    display: none;
+                    padding: 15px;
+                    background: #1a3d1a;
+                }
+                .solution-content.expanded {
+                    display: block;
+                }
+                .solution-code {
+                    margin: 0 !important;
+                    border-radius: 4px !important;
+                    background: #0d2818 !important;
+                    color: #90ee90;
+                    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    padding: 15px !important;
+                    overflow-x: auto;
+                    white-space: pre;
+                    border: 1px solid #4a7c59;
+                }
+                
                 .progress-bar { width: 100%; height: 20px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
                 .progress-fill { height: 100%; background: #007bff; transition: width 0.3s ease; }
                 .step-number { 
@@ -419,9 +832,29 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                 .collapse-all-btn:hover {
                     background: #5a6268;
                 }
+                
+                /* Toast notification for copy feedback */
+                .toast {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    z-index: 1000;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                }
+                .toast.show {
+                    opacity: 1;
+                }
             """)
         ),
         Body(
+            # Toast notification element
+            Div(id="toast", cls="toast"),
+            
             H1("🎓 Learning Path Generator"),
             Div(
                 H2(f"📚 {repo_info['name']}"),
@@ -520,7 +953,7 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                                     <p>${{step.job_market_relevance}}</p>
                                     
                                     <h3>🏋️ Coding Exercises</h3>
-                                    ${{step.coding_exercises.map(exercise => `<div class="exercise"><pre>${{exercise}}</pre></div>`).join('')}}
+                                    ${{renderExercises(step.coding_exercises, step.step)}}
                                 </div>
                             </div>
                         `;
@@ -528,6 +961,152 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                     
                     html += '<a href="/" style="margin-top: 30px; display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">← Back to Home</a>';
                     return html;
+                }}
+                
+                function renderExercises(exercises, stepNumber) {{
+                    if (!exercises || exercises.length === 0) {{
+                        return '<p>No coding exercises for this step.</p>';
+                    }}
+                    
+                    return exercises.map((exercise, index) => {{
+                        const exerciseId = `exercise-${{stepNumber}}-${{index}}`;
+                        const solutionId = `solution-${{stepNumber}}-${{index}}`;
+                        
+                        // Split exercise and solution if they exist
+                        const parts = exercise.split('## Solution:');
+                        const exerciseCode = cleanCodeContent(parts[0]);
+                        const solutionCode = parts.length > 1 ? cleanCodeContent(parts[1]) : '';
+                        
+                        const language = detectLanguage(exerciseCode);
+                        
+                        return `
+                            <div class="exercise">
+                                <div class="exercise-header" onclick="toggleExercise('${{exerciseId}}')">
+                                    <h4 class="exercise-title">💻 Exercise ${{index + 1}} (${{language}})</h4>
+                                    <div class="exercise-controls">
+                                        <button class="exercise-btn copy-btn" onclick="copyCode('${{exerciseId}}', event)" title="Copy exercise code">
+                                            📋 Copy Exercise
+                                        </button>
+                                        <span class="exercise-btn" id="toggle-icon-${{exerciseId}}">▶</span>
+                                    </div>
+                                </div>
+                                <div class="exercise-content" id="${{exerciseId}}">
+                                    <div class="exercise-section">
+                                        <h5 style="margin: 0 0 10px 0; color: #007bff; font-size: 14px;">📝 Exercise:</h5>
+                                        <pre class="exercise-code language-${{language}}" id="code-${{exerciseId}}">${{escapeHtml(exerciseCode)}}</pre>
+                                    </div>
+                                    ${{solutionCode ? renderSolution(solutionCode, solutionId, language) : ''}}
+                                </div>
+                            </div>
+                        `;
+                    }}).join('');
+                }}
+                
+                function renderSolution(solutionCode, solutionId, language) {{
+                    return `
+                        <div class="solution-container">
+                            <div class="solution-header" onclick="toggleSolution('${{solutionId}}')">
+                                <h5 class="solution-title">
+                                    <span>💡 Solution</span>
+                                    <div class="solution-controls">
+                                        <button class="solution-btn copy-btn" onclick="copySolution('${{solutionId}}', event)" title="Copy solution">
+                                            📋 Copy Solution
+                                        </button>
+                                        <span class="solution-toggle" id="toggle-icon-${{solutionId}}">👁️ Show</span>
+                                    </div>
+                                </h5>
+                            </div>
+                            <div class="solution-content" id="${{solutionId}}">
+                                <pre class="solution-code language-${{language}}" id="code-${{solutionId}}">${{escapeHtml(solutionCode)}}</pre>
+                            </div>
+                        </div>
+                    `;
+                }}
+                
+                function cleanCodeContent(code) {{
+                    // Remove markdown code block syntax
+                    let cleaned = code.replace(/^```[a-zA-Z]*\\n?/, '').replace(/```$/, '');
+                    // Remove leading/trailing whitespace but preserve internal formatting
+                    cleaned = cleaned.replace(/^\\s+|\\s+$/g, '');
+                    return cleaned;
+                }}
+                
+                function detectLanguage(code) {{
+                    // Simple language detection based on common patterns
+                    if (code.includes('def ') || code.includes('import ') || code.includes('print(')) {{
+                        return 'python';
+                    }} else if (code.includes('function ') || code.includes('const ') || code.includes('console.log')) {{
+                        return 'javascript';
+                    }} else if (code.includes('public class') || code.includes('System.out.println')) {{
+                        return 'java';
+                    }} else if (code.includes('#include') || code.includes('cout <<')) {{
+                        return 'cpp';
+                    }} else if (code.includes('SELECT') || code.includes('FROM')) {{
+                        return 'sql';
+                    }}
+                    return 'text';
+                }}
+                
+                function escapeHtml(text) {{
+                    const div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                }}
+                
+                function toggleExercise(exerciseId) {{
+                    const content = document.getElementById(exerciseId);
+                    const toggle = document.getElementById(`toggle-icon-${{exerciseId}}`);
+                    
+                    if (content.classList.contains('expanded')) {{
+                        content.classList.remove('expanded');
+                        toggle.textContent = '▶';
+                    }} else {{
+                        content.classList.add('expanded');
+                        toggle.textContent = '▼';
+                        
+                        // Trigger syntax highlighting after content is visible
+                        setTimeout(() => {{
+                            if (window.Prism) {{
+                                Prism.highlightAllUnder(content);
+                            }}
+                        }}, 100);
+                    }}
+                }}
+                
+                function copyCode(exerciseId, event) {{
+                    event.stopPropagation(); // Prevent triggering the exercise toggle
+                    
+                    const codeElement = document.getElementById(`code-${{exerciseId}}`);
+                    const code = codeElement.textContent;
+                    
+                    navigator.clipboard.writeText(code).then(() => {{
+                        showToast('Code copied to clipboard!');
+                        
+                        // Visual feedback on copy button
+                        const copyBtn = event.target;
+                        const originalText = copyBtn.textContent;
+                        copyBtn.textContent = '✅ Copied';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {{
+                            copyBtn.textContent = originalText;
+                            copyBtn.classList.remove('copied');
+                        }}, 2000);
+                    }}).catch(err => {{
+                        console.error('Failed to copy: ', err);
+                        showToast('Failed to copy code', 'error');
+                    }});
+                }}
+                
+                function showToast(message, type = 'success') {{
+                    const toast = document.getElementById('toast');
+                    toast.textContent = message;
+                    toast.className = `toast ${{type}}`;
+                    toast.classList.add('show');
+                    
+                    setTimeout(() => {{
+                        toast.classList.remove('show');
+                    }}, 3000);
                 }}
                 
                 function addStepInteractivity() {{
@@ -547,6 +1126,13 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                         content.classList.add('expanded');
                         toggle.classList.add('expanded');
                         toggle.textContent = '▼';
+                        
+                        // Trigger syntax highlighting for any visible code blocks
+                        setTimeout(() => {{
+                            if (window.Prism) {{
+                                Prism.highlightAllUnder(content);
+                            }}
+                        }}, 100);
                     }}
                 }}
                 
@@ -561,6 +1147,13 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                         toggle.classList.add('expanded');
                         toggle.textContent = '▼';
                     }});
+                    
+                    // Trigger syntax highlighting for all visible code
+                    setTimeout(() => {{
+                        if (window.Prism) {{
+                            Prism.highlightAll();
+                        }}
+                    }}, 100);
                 }}
                 
                 function collapseAllSteps() {{
@@ -573,6 +1166,51 @@ def render_processing_page_polling(repo_info, file_count, task_id):
                         content.classList.remove('expanded');
                         toggle.classList.remove('expanded');
                         toggle.textContent = '▶';
+                    }});
+                }}
+                
+                function toggleSolution(solutionId) {{
+                    const content = document.getElementById(solutionId);
+                    const toggle = document.getElementById(`toggle-icon-${{solutionId}}`);
+                    
+                    if (content.classList.contains('expanded')) {{
+                        content.classList.remove('expanded');
+                        toggle.textContent = '👁️ Show';
+                    }} else {{
+                        content.classList.add('expanded');
+                        toggle.textContent = '🙈 Hide';
+                        
+                        // Trigger syntax highlighting after content is visible
+                        setTimeout(() => {{
+                            if (window.Prism) {{
+                                Prism.highlightAllUnder(content);
+                            }}
+                        }}, 100);
+                    }}
+                }}
+                
+                function copySolution(solutionId, event) {{
+                    event.stopPropagation(); // Prevent triggering the solution toggle
+                    
+                    const codeElement = document.getElementById(`code-${{solutionId}}`);
+                    const code = codeElement.textContent;
+                    
+                    navigator.clipboard.writeText(code).then(() => {{
+                        showToast('Solution copied to clipboard!');
+                        
+                        // Visual feedback on copy button
+                        const copyBtn = event.target;
+                        const originalText = copyBtn.textContent;
+                        copyBtn.textContent = '✅ Copied';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {{
+                            copyBtn.textContent = originalText;
+                            copyBtn.classList.remove('copied');
+                        }}, 2000);
+                    }}).catch(err => {{
+                        console.error('Failed to copy: ', err);
+                        showToast('Failed to copy solution', 'error');
                     }});
                 }}
                 
